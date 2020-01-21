@@ -18,17 +18,18 @@
 
 trigger:
 - '*'
+
 pool:
-vmImage: 'ubuntu-16.04'
-demands: 
-- npm
+  vmImage: 'ubuntu-16.04'
+  demands:
+  - npm
 
 variables:
-buildConfiguration: 'Release'
+  buildConfiguration: 'Release'
 
-steps: 
+steps:
 - task: UseDotNet@2
-  displayName: 'Use .Net Core SDK 2.1.505'
+  displayName: 'Use .NET Core SDK 2.1.505'
   inputs:
     packageType: sdk
     version: 2.1.505
@@ -46,17 +47,17 @@ steps:
 
 - script: 'echo "$(Build.DefinitionName), $(Build.BuildId), $(Build.BuildNumber)" > buildinfo.txt'
   displayName: 'Write build info'
-  WorkingDirectory: Tailspin.SpaceGame.Web/wwwroot
+  workingDirectory: Tailspin.SpaceGame.Web/wwwroot
 
 - task: DotNetCoreCLI@2
-  displayName: 'Restore project ependencies'
+  displayName: 'Restore project dependencies'
   inputs:
     command: 'restore'
     projects: '**/*.csproj'
 
 - task: DotNetCoreCLI@2
-  displayName: 'Build the project -Release'
+  displayName: 'Build the project - Release'
   inputs:
     command: 'build'
-    arguments: '--no-restore --configration Release'
+    arguments: '--no-restore --configuration Release'
     projects: '**/*.csproj'
